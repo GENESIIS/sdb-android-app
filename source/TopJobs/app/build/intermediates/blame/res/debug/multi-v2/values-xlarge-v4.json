@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\PASINDU\\TOPJOBS Rel Pack\\20180411\\TopJobs\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-xlarge-v4\\values-xlarge-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\PASINDU\\TOPJOBS Rel Pack\\20180411\\TopJobs\\actionbarsherlock\\build\\intermediates\\packaged_res\\debug\\values-xlarge-v4\\values-xlarge-v4.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,118,187,257,323,390,453,514,583",
+                        "endColumns": "62,68,69,65,66,62,60,68,68",
+                        "endOffsets": "113,182,252,318,385,448,509,578,647"
+                    }
+                }
+            ]
+        }
+    ]
+}

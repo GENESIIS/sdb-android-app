@@ -1,0 +1,47 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\PASINDU\\TOPJOBS Rel Pack\\20180411\\TopJobs\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
+            "map": [
+                {
+                    "source": "C:\\PASINDU\\TOPJOBS Rel Pack\\20180411\\TopJobs\\app\\src\\main\\res\\values-v11\\styles.xml",
+                    "from": {
+                        "startLines": "2,11,6",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "19,449,186",
+                        "endLines": "4,13,9",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "178,623,441"
+                    },
+                    "to": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,217,394",
+                        "endLines": "4,7,11",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "212,389,646"
+                    }
+                },
+                {
+                    "source": "C:\\PASINDU\\TOPJOBS Rel Pack\\20180411\\TopJobs\\actionbarsherlock\\build\\intermediates\\packaged_res\\debug\\values-v11\\values-v11.xml",
+                    "from": {
+                        "startLines": "2,6",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,245",
+                        "endLines": "5,9",
+                        "endColumns": "12,12",
+                        "endOffsets": "240,442"
+                    },
+                    "to": {
+                        "startLines": "12,16",
+                        "startColumns": "4,4",
+                        "startOffsets": "651,841",
+                        "endLines": "15,19",
+                        "endColumns": "12,12",
+                        "endOffsets": "836,1038"
+                    }
+                }
+            ]
+        }
+    ]
+}
