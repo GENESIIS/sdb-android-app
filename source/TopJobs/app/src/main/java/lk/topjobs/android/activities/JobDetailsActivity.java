@@ -13,7 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -125,7 +124,6 @@ public class JobDetailsActivity extends SherlockActivity {
 			}
 			return true;
 		} catch (Exception ex) {
-			Log.i("PASINDU",ex.getMessage());
 			new ShowToast(this, getString(R.string.unable_to_open_this_job));
 			return false;
 		}

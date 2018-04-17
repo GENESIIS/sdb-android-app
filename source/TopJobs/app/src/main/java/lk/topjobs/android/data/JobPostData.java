@@ -2,16 +2,12 @@ package lk.topjobs.android.data;
 
 import java.util.Date;
 
-import lk.topjobs.android.MainApplication;
-
 /**
  * @author Harsha Kodagoda
- *
- * 20180411 SDB-668-4472-PS Append the host into the hardcoded advertisement Url to get the full url from the MainApplication
  * 
  */
 public class JobPostData {
-	private static String advertisementUrl = MainApplication.host + "employer/advertismentpreview.jsp";
+	private static String advertisementUrl = "http://topjobs.lk/employer/advertismentpreview.jsp";
 	private int id;
 	private String title;
 	private String position;
