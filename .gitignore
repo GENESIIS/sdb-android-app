@@ -1,0 +1,25 @@
+# Sample .gitignore file.  Put it into the project folder
+# this file is for eclipse projects
+
+# eclipse project settings and everything underneath.
+# trailing / matches directory and all under it
+# but will not match a regular file or symlink
+.settings/
+
+# match the following eclipse project files specifically
+.classpath
+.project
+
+
+# ignore all the .class files
+**/*.class
+
+#ignore the .metadata workspace directory
+.metadata/
+
+
+#ignore the .org files
+*/.orig
+/.orig
+.orig
+
