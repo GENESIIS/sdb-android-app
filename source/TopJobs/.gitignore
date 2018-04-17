@@ -1,0 +1,17 @@
+# Sample .gitignore file.  Put it into the project folder
+# this file is for eclipse projects
+
+
+# ignore build directory
+gradle/**
+app/build/
+app/build/**
+actionbarsherlock/build/
+actionbarsherlock/build/**
+
+# ignore all the .class files
+**/*.iml
+**/*.bat
+*.bat
+.gradle/
+.idea/

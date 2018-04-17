@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_back_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
+
+    <RelativeLayout
+        android:id="@+id/layoutFooter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_footer_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/default_red" >
+
+        <ImageView
+            android:id="@+id/imageViewFooterLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp"
+            android:clickable="true"
+            android:contentDescription="@string/app_name"
+            android:onClick="onClick"
+            android:src="@drawable/footer_logo" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layoutFooter" >
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+</RelativeLayout>
