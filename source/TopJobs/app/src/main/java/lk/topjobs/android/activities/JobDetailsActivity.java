@@ -1,3 +1,8 @@
+/**
+ * 20180417 PS SDB-868-4603 Opening the vacancy url by default browser
+ *
+ */
+
 package lk.topjobs.android.activities;
 
 import java.text.SimpleDateFormat;
@@ -17,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -25,7 +31,8 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * @author Harsha Kodagoda
- * 
+ *
+ *
  */
 public class JobDetailsActivity extends SherlockActivity {
 	private MainApplication application;
@@ -43,6 +50,7 @@ public class JobDetailsActivity extends SherlockActivity {
 	private ImageView imageViewPreviousButton;
 	private ImageView imageViewPreviousInactiveButton;
 	private ImageView imageViewFavoriteButton;
+	private String url = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -262,10 +270,19 @@ public class JobDetailsActivity extends SherlockActivity {
 				}
 			}
 		} else if (view.getId() == R.id.buttonOpenLink) {
-			Intent intent = new Intent(this, AdvertViewerActivity.class);
-			intent.putExtra("advert_link",
-					currentJobPost.getAdvertisementLink());
-			startActivity(intent);
+			// SDB-868-4603 Opening the vacancy url bu default browser
+			try {
+				url = currentJobPost.getAdvertisementLink();
+			} catch (Exception e) {
+				e.printStackTrace();
+				url = "";
+			}
+			if (url.length()>0){
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+				startActivity(browserIntent);
+			}else {
+				Toast.makeText(getApplicationContext(),"Advertisement URL not found", Toast.LENGTH_LONG).show();
+			}
 		}
 	}
 

@@ -1,3 +1,6 @@
+<!--
+ * 20180417 PS SDB-868-4603 Changed buttonOpenLink width and height to match_parent
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -152,8 +155,8 @@
 
             <Button
                 android:id="@+id/buttonOpenLink"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:onClick="onClick"
                 android:text="@string/see_full_advertisement" />
