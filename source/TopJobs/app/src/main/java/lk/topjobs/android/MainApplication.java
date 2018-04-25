@@ -27,7 +27,7 @@ public class MainApplication extends Application {
 	public ArrayList<JobPostData> originalJobList;
 	public ArrayList<JobPostData> filteredJobList;
 	public ArrayList<JobPostData> favoriteJobList;
-	public static String host = "http://100.100.100.198/";
+	public static String host = "http://topjobs.lk/";
 
 	public ArrayList<JobCategoryData> getJobCategoryList() {
 		if (jobCategoryList == null) {
