@@ -1,3 +1,8 @@
+/**
+ * 20180823 PS SDB-921-4669 Remove EasyTracker activity start from onStart() and onStop() methods
+ *
+ */
+
 package lk.topjobs.androidapp.activities;
 
 import lk.topjobs.androidapp.R;
@@ -39,13 +44,11 @@ public class SplashActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance(this).activityStart(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
 	}
 
 	private void startCategoryActivity() {
