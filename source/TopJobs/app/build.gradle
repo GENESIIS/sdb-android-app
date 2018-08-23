@@ -8,12 +8,14 @@ android {
     defaultConfig {
         applicationId "lk.topjobs.androidapp"
         minSdkVersion 7
-        targetSdkVersion 17
+        targetSdkVersion 26
     }
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+    }
+    productFlavors {
     }
 }
 
