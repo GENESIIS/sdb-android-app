@@ -35,5 +35,6 @@
     <string name="download_error_msg">Unable to download data. Please check network connection</string>
     <string name="last_update">Last update:</string>
     <string name="job_postings">job postings</string>
+    <string name="location">Location</string>
 
 </resources>

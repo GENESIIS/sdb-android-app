@@ -1,6 +1,6 @@
 /**
  * 20180823 PS SDB-921-4669 Remove EasyTracker activity start from onStart() and onStop() methods
- *
+ * 20190516 PS SDB-954-4701 Add the LocationManager class and get the GPS location by LocationAddress and a pop up.
  */
 
 package lk.topjobs.androidapp.activities;
@@ -16,15 +16,26 @@ import lk.topjobs.androidapp.R;
 import lk.topjobs.androidapp.adapters.JobListAdapter;
 import lk.topjobs.androidapp.data.JobCategoryData;
 import lk.topjobs.androidapp.data.JobPostData;
+import lk.topjobs.androidapp.data.LocationAddress;
 import lk.topjobs.androidapp.utils.ShowToast;
 import lk.topjobs.androidapp.xml.XMLCallResult;
 import lk.topjobs.androidapp.xml.XMLCallback;
 import lk.topjobs.androidapp.xml.XMLCaller;
+
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -45,10 +56,10 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * @author Harsha Kodagoda
- * 
+ *
  */
 public class JobListActivity extends SherlockActivity implements XMLCallback,
-		TextWatcher, OnItemClickListener, ActionBar.OnNavigationListener {
+		TextWatcher, OnItemClickListener, ActionBar.OnNavigationListener, LocationListener {
 	private MainApplication application;
 	private PopupWindow progressPopup;
 	private ListView listView;
@@ -60,6 +71,7 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 	private ArrayAdapter<JobCategoryData> categorySpinnerAdapter;
 	private boolean isDownloading = false;
 	private RelativeLayout layoutProgress;
+	private LocationManager locationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +95,7 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 		if (jobCategoryList != null && jobCategoryList.size() > 0) {
 			int categoryIndex = 0;
 			try {
-				categoryIndex = getIntent().getExtras()
-						.getInt("category_index");
+				categoryIndex = getIntent().getExtras().getInt("category_index");
 				currentJobCategory = jobCategoryList.get(categoryIndex);
 			} catch (Exception e) {
 				currentJobCategory = jobCategoryList.get(0);
@@ -154,12 +165,43 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 		return true;
 	}
 
+	private boolean isNetworkConnected() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		return cm.getActiveNetworkInfo() != null;
+	}
+
+	@SuppressLint("MissingPermission")
+	private void openPopUp(){
+		//Checking the GPS location CC4701
+		if (!isNetworkConnected()){
+			LocationAddress.showSettingsAlert(JobListActivity.this);
+		}else{
+			locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10,0,this);
+			LocationAddress.getAddressFromLocation(getApplicationContext(),locationManager);
+			Log.i("GPS", LocationAddress.getInstance().locationStr);
+		}
+
+		String[] colors = {LocationAddress.getInstance().locationStr, "ALL"};
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Search according to current Location");
+		builder.setItems(colors, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				downloadRSSFeed();
+			}
+		});
+		builder.show();
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
 			finish();
 		} else if (item.getItemId() == R.id.action_refresh) {
 			downloadRSSFeed();
+		}else if (item.getItemId() == R.id.action_gps) {
+			openPopUp();
 		} else if (item.getItemId() == R.id.action_about) {
 			Intent intent = new Intent(this, AboutActivity.class);
 			startActivity(intent);
@@ -254,6 +296,26 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 		if (jobListAdapter != null) {
 			jobListAdapter.getFilter().filter(text.toString());
 		}
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+
 	}
 
 	private class JobListIdComparator implements Comparator<JobPostData> {
