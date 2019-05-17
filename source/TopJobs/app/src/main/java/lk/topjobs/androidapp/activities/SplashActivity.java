@@ -1,22 +1,19 @@
 /**
  * 20180823 PS SDB-921-4669 Remove EasyTracker activity start from onStart() and onStop() methods
- *
+ * 20190517 PS SDB-954-4701 Removed the LocationListener from this class.
  */
 
 package lk.topjobs.androidapp.activities;
-
 import lk.topjobs.androidapp.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 /**
  * @author Harsha Kodagoda
- * 
+ *
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends Activity  {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +54,4 @@ public class SplashActivity extends Activity {
 		finish();
 	}
 
-	@Override
-	public void onBackPressed() {
-	}
 }

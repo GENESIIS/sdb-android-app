@@ -1,6 +1,7 @@
 /**
  * 20180823 PS SDB-921-4669 Remove EasyTracker activity start from onStart() and onStop() methods
  * 20190516 PS SDB-954-4701 Add the LocationManager class and get the GPS location by LocationAddress and a pop up.
+ * 20190517 PS SDB-954-4701 Refactored the code to open the tooltip text and check user package permission.
  */
 
 package lk.topjobs.androidapp.activities;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
-
 import lk.topjobs.androidapp.MainApplication;
 import lk.topjobs.androidapp.R;
 import lk.topjobs.androidapp.adapters.JobListAdapter;
@@ -21,24 +21,27 @@ import lk.topjobs.androidapp.utils.ShowToast;
 import lk.topjobs.androidapp.xml.XMLCallResult;
 import lk.topjobs.androidapp.xml.XMLCallback;
 import lk.topjobs.androidapp.xml.XMLCaller;
-
-import android.annotation.SuppressLint;
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -47,12 +50,10 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * @author Harsha Kodagoda
@@ -111,6 +112,12 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 		} else {
 
 		}
+
+		Dialog settingsDialog = new Dialog(this);
+		settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		settingsDialog.setContentView(getLayoutInflater().inflate(R.layout.gps_message_tooltip
+				, null));
+		settingsDialog.show();
 	}
 
 	@Override
@@ -165,33 +172,67 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 		return true;
 	}
 
-	private boolean isNetworkConnected() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		return cm.getActiveNetworkInfo() != null;
+	// Open GPS settings enable location.
+	private void openGPSSettings() {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+				.setCancelable(false)
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(final DialogInterface dialog, final int id) {
+						startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+					}
+				})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(final DialogInterface dialog, final int id) {
+						dialog.cancel();
+					}
+				});
+		final AlertDialog alert = builder.create();
+		alert.show();
 	}
 
-	@SuppressLint("MissingPermission")
-	private void openPopUp(){
-		//Checking the GPS location CC4701
-		if (!isNetworkConnected()){
-			LocationAddress.showSettingsAlert(JobListActivity.this);
-		}else{
-			locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10,0,this);
-			LocationAddress.getAddressFromLocation(getApplicationContext(),locationManager);
-			Log.i("GPS", LocationAddress.getInstance().locationStr);
-		}
+	// Open pop up to select the vacancies according to the Location and All.
+	private void openPopUp() {
+		try {
+			// Check for package permissions
+			locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+			if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+			}else {
+				// Check for the GPS enability
+				final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+				if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+					openGPSSettings();
+				}else {
+					// All Ok for GPS connectivity and get the address from the location.
+					locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10, 0, this);
+					LocationAddress.getAddressFromLocation(getApplicationContext(), locationManager); // Get the location address name
 
-		String[] colors = {LocationAddress.getInstance().locationStr, "ALL"};
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Search according to current Location");
-		builder.setItems(colors, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				downloadRSSFeed();
+					if (LocationAddress.getInstance().locationStr != null) {
+						String[] locations = {"ALL Locations", LocationAddress.getInstance().locationStr}; // Paint the popup selection.
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+						builder.setTitle("Search according to current Location");
+						builder.setItems(locations, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								if (which == 0) {
+									jobListAdapter.getFilter().filter("");
+								} else {
+									if (jobListAdapter != null) {
+										jobListAdapter.getFilter().filter(LocationAddress.getInstance().locationStr);
+									}
+								}
+							}
+						});
+						builder.show();
+					}else {
+						new ShowToast(this, "Finding your location. Please wait for GPS ...");
+					}
+				}
 			}
-		});
-		builder.show();
+		}catch (Exception ex){
+			new ShowToast(this,"Please enable GPS to get your Location.");
+		}
 	}
 
 	@Override
@@ -300,7 +341,11 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 
 	@Override
 	public void onLocationChanged(Location location) {
-
+		try {
+			LocationAddress.getAddressFromLocation(getApplicationContext(),locationManager); // Get the location address name
+		} catch (Exception e) {
+			Log.e("LocationAddress No GPS;",e.toString());
+		}
 	}
 
 	@Override
