@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * @author Harsha Kodagoda
- * 
+ * 20190523 PS SDB-954 Added the location data for the favourite methods.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String DATABASE_NAME = "topjobs.db";
@@ -66,6 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			values.put("js", jobPostData.getJs());
 			values.put("ac", jobPostData.getAc());
 			values.put("ec", jobPostData.getEc());
+			values.put("lc", jobPostData.getLc());
 			values.put("position", jobPostData.getPosition());
 			values.put("employer", jobPostData.getEmployer());
 			values.put("description", jobPostData.getDescription());
@@ -155,6 +156,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 						.setAc(cursor.getString(cursor.getColumnIndex("ac")));
 				jobPostData
 						.setEc(cursor.getString(cursor.getColumnIndex("ec")));
+				jobPostData
+						.setLc(cursor.getString(cursor.getColumnIndex("lc")));
 				jobPostData.setPosition(cursor.getString(cursor
 						.getColumnIndex("position")));
 				jobPostData.setEmployer(cursor.getString(cursor

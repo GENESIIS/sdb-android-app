@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 /**
  * @author Harsha Kodagoda
- * 
+ * 20190523 PS SDB-954 Added location data and concat to the textViewEmployer.
  */
 public class JobListAdapter extends BaseAdapter implements Filterable,
 		OnClickListener {
@@ -89,7 +89,7 @@ public class JobListAdapter extends BaseAdapter implements Filterable,
 			}
 			viewHolder.imageViewFavorite.setOnClickListener(this);
 			viewHolder.imageViewFavorite.setTag(jobPostData);
-			viewHolder.textViewEmployer.setText(jobPostData.getEmployer());
+			viewHolder.textViewEmployer.setText(jobPostData.getEmployer() + " - " + jobPostData.getLc());
 			viewHolder.textViewPosition.setText(jobPostData.getPosition());
 			String relativeTime = DateTimeUtils
 					.getRelativeDayString(jobPostData.getPubDate());
@@ -134,7 +134,15 @@ public class JobListAdapter extends BaseAdapter implements Filterable,
 													constraint
 															.toString()
 															.toLowerCase(
-																	Locale.getDefault())))
+																	Locale.getDefault()))
+									|| jobPostData
+									.getLc()
+									.toLowerCase(Locale.getDefault())
+									.contains(
+											constraint
+													.toString()
+													.toLowerCase(
+															Locale.getDefault())))
 								resultList.add(jobPostData);
 						}
 					}

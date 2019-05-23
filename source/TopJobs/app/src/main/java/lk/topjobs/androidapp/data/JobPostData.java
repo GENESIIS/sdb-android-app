@@ -9,7 +9,7 @@ import lk.topjobs.androidapp.MainApplication;
  *
  * 20180411 SDB-668-4472-PS Append the host into the hardcoded advertisement Url to get the full url from the MainApplication
  * 20180515 SDB-877-4621-PS Changed the advertisementUrl to be call from the JobAdvertismentServlet
- * 
+ * 20190523 SDB-954-4701 PS added the location attribute (lc).
  */
 public class JobPostData {
 	private static String advertisementUrl = MainApplication.host + "employer/JobAdvertismentServlet";
@@ -24,6 +24,7 @@ public class JobPostData {
 	private String ac;
 	private String js;
 	private String ec;
+	private String lc;
 
 	// private boolean favorite = false;
 
@@ -161,5 +162,13 @@ public class JobPostData {
 		} catch (Exception ex) {
 			return "";
 		}
+	}
+
+	public String getLc() {
+		return lc;
+	}
+
+	public void setLc(String lc) {
+		this.lc = lc;
 	}
 }

@@ -29,7 +29,7 @@ import android.util.Xml;
 
 /**
  * @author Harsha Kodagoda
- * 
+ * 20190523 PS SDB-954 Add LC attribute from the adapter to get the location data from the RSS.
  */
 public class XMLCaller extends AsyncTask<String, String, XMLCallResult> {
 	private XMLCallback xmlCallback = null;
@@ -218,6 +218,14 @@ public class XMLCaller extends AsyncTask<String, String, XMLCallResult> {
 					@Override
 					public void end(String body) {
 						jobPostData.setEc(body);
+					}
+				});
+		elementItem.getChild("lc").setEndTextElementListener(
+				new EndTextElementListener() {
+
+					@Override
+					public void end(String body) {
+						jobPostData.setLc(body);
 					}
 				});
 		elementItem.setEndElementListener(new EndElementListener() {
