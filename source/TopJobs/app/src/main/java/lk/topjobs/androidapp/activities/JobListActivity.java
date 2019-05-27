@@ -33,6 +33,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -56,6 +57,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.internal.view.menu.ActionMenuItemView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -212,17 +214,25 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
                             textViewTotalPosts.setText(jobListAdapter.getListSize() + " " + getString(R.string.job_postings) + " in " + townName);
                         }
 
-                        // Display all vacancies tooltip
-                        LayoutInflater inflater = getLayoutInflater();
-                        View view = inflater.inflate(R.layout.all_vacancies_tooltip,
-                                (ViewGroup) findViewById(R.id.linearLayout_alVac));
-
-                        Toast toast = new Toast(this);
-                        toast.setView(view);
-                        toast.setDuration(Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP|Gravity.RIGHT, 50, 90);
-                        toast.show();
 						textViewTotalPosts.setText(jobListAdapter.getListSize() + " " + getString(R.string.job_postings) + " in " + townName);
+                        // Display all vacancies tooltip after a Delay.
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+								LayoutInflater inflater = getLayoutInflater();
+								View view = inflater.inflate(R.layout.all_vacancies_tooltip,
+										(ViewGroup) findViewById(R.id.linearLayout_alVac));
+
+								Toast toast = new Toast(JobListActivity.this);
+								toast.setView(view);
+								toast.setDuration(Toast.LENGTH_LONG);
+								toast.setGravity(Gravity.TOP|Gravity.RIGHT, 50, 90);
+								toast.show();
+                            }
+                        }, 10000);
+
+
 					}else {
 						new ShowToast(this, "Finding your location. Please wait for GPS ...");
 					}
