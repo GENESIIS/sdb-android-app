@@ -4,8 +4,8 @@
 <!-- 20190516 SDB-954-4701-PS-Added a new user permission for ACCESS_COARSE_LOCATION and ACCESS_FINE_LOCATION -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="lk.topjobs.androidapp"
-    android:versionCode="5"
-    android:versionName="1.4.1" >
+    android:versionCode="6"
+    android:versionName="1.4.2" >
 
     <uses-sdk
         android:minSdkVersion="7"
