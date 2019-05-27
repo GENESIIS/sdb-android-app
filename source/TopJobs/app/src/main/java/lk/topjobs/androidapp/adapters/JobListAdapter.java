@@ -28,12 +28,21 @@ public class JobListAdapter extends BaseAdapter implements Filterable,
 	private LayoutInflater layoutInflater;
 	private DatabaseHelper databaseHelper;
 	private MainApplication application;
+	private int listSize;
 
 	public JobListAdapter(Context context, MainApplication application) {
 		databaseHelper = new DatabaseHelper(context);
 		this.application = application;
 		layoutInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+
+	public int getListSize() {
+		return listSize;
+	}
+
+	public void setListSize(int listSize) {
+		this.listSize = listSize;
 	}
 
 	@Override
@@ -148,6 +157,7 @@ public class JobListAdapter extends BaseAdapter implements Filterable,
 					}
 					filterResults.values = resultList;
 				}
+				setListSize(resultList.size());
 				return filterResults;
 			}
 

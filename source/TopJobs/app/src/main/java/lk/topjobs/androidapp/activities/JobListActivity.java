@@ -39,7 +39,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -50,6 +52,8 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -112,12 +116,6 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 		} else {
 
 		}
-
-		Dialog settingsDialog = new Dialog(this);
-		settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-		settingsDialog.setContentView(getLayoutInflater().inflate(R.layout.gps_message_tooltip
-				, null));
-		settingsDialog.show();
 	}
 
 	@Override
@@ -207,24 +205,24 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 					// All Ok for GPS connectivity and get the address from the location.
 					locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10, 0, this);
 					LocationAddress.getAddressFromLocation(getApplicationContext(), locationManager); // Get the location address name
+					final String townName = LocationAddress.getInstance().locationStr;
+					if (townName != null) {
+                        if (jobListAdapter != null) {
+                            jobListAdapter.getFilter().filter(townName);
+                            textViewTotalPosts.setText(jobListAdapter.getListSize() + " " + getString(R.string.job_postings) + " in " + townName);
+                        }
 
-					if (LocationAddress.getInstance().locationStr != null) {
-						String[] locations = {"ALL Locations", LocationAddress.getInstance().locationStr}; // Paint the popup selection.
-						AlertDialog.Builder builder = new AlertDialog.Builder(this);
-						builder.setTitle("Search according to current Location");
-						builder.setItems(locations, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								if (which == 0) {
-									jobListAdapter.getFilter().filter("");
-								} else {
-									if (jobListAdapter != null) {
-										jobListAdapter.getFilter().filter(LocationAddress.getInstance().locationStr);
-									}
-								}
-							}
-						});
-						builder.show();
+                        // Display all vacancies tooltip
+                        LayoutInflater inflater = getLayoutInflater();
+                        View view = inflater.inflate(R.layout.all_vacancies_tooltip,
+                                (ViewGroup) findViewById(R.id.linearLayout_alVac));
+
+                        Toast toast = new Toast(this);
+                        toast.setView(view);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP|Gravity.RIGHT, 50, 90);
+                        toast.show();
+						textViewTotalPosts.setText(jobListAdapter.getListSize() + " " + getString(R.string.job_postings) + " in " + townName);
 					}else {
 						new ShowToast(this, "Finding your location. Please wait for GPS ...");
 					}
@@ -312,6 +310,16 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 		} catch (Exception ex) {
 			new ShowToast(this, getString(R.string.download_error_msg));
 		}
+
+		LayoutInflater inflater = getLayoutInflater();
+		View view = inflater.inflate(R.layout.gps_message_tooltip,
+				(ViewGroup) findViewById(R.id.linearLayout1));
+
+		Toast toast = new Toast(this);
+		toast.setView(view);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.TOP|Gravity.RIGHT, 50, 90);
+		toast.show();
 	}
 
 	@Override

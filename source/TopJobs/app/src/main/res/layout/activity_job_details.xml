@@ -159,6 +159,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:onClick="onClick"
+                android:background="@drawable/job_view_background_border"
                 android:text="@string/see_full_advertisement" />
 
             <TextView

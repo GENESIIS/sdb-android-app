@@ -4,7 +4,7 @@
     <color name="default_red">#7d0000</color>
     <color name="default_text_color">#231f20</color>
     <color name="job_list_divider_color">#a5a5a5</color>
-    <color name="activity_back_color">#f2f2f2</color>
+    <color name="activity_back_color">#F2F2F2</color>
     <color name="job_list_row_back_color">#f0f0f0</color>
     
 </resources>

@@ -3,20 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/abs__background_holo_dark">
+    android:id="@+id/linearLayout1"
+    android:background="@drawable/job_view_background_border">
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_location" />
+        android:layout_height="46dp"
+        android:background="@color/activity_back_color"
+        android:src="@drawable/ic_uparrow" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/activity_back_color"
         android:clickable="false"
         android:gravity="center"
-        android:text="Please Click this button on the top right corner to filter jobs by Location."
-        android:textColor="@color/abs__background_holo_light" />
+        android:text="Click here to find jobs closer to you."
+        android:textColor="@color/default_red"
+        android:textSize="15dp" />
 </LinearLayout>
