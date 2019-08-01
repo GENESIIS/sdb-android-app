@@ -285,10 +285,10 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 				application.originalJobList = result.jobPostList;
 				application.filteredJobList = result.jobPostList;
 				try {
-					Collections.sort(application.originalJobList,
-							new JobListIdComparator());
-					Collections.sort(application.originalJobList,
-							new JobListDateComparator());
+//					Collections.sort(application.originalJobList,
+//							new JobListIdComparator());
+//					Collections.sort(application.originalJobList,
+//							new JobListDateComparator());
 					jobListAdapter = new JobListAdapter(this, application);
 					listView.setAdapter(jobListAdapter);
 					textViewTotalPosts.setText(application.originalJobList
