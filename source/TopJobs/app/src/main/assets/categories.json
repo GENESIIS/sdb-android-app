@@ -76,13 +76,13 @@
   },
   {
     "id": 16,
-    "name": "Hotels/Restaurants/Food",
-    "url": "rss/hotels_restaurants_food.rss"
+    "name": "Hotel/Restaurant/Hospitality",
+    "url": "rss/hotel_restaurant_hospitality.rss"
   },
   {
     "id": 17,
-    "name": "Hospitality/Tourism",
-    "url": "rss/hospitality_tourism.rss"
+    "name": "Travel/Tourism",
+    "url": "rss/travel_tourism.rss"
   },
   {
     "id": 18,
@@ -116,8 +116,8 @@
   },
   {
     "id": 24,
-    "name": "Teaching/Academic/Library",
-    "url": "rss/teaching_academic_library.rss"
+    "name": "Education",
+    "url": "rss/education.rss"
   },
   {
     "id": 25,
@@ -153,5 +153,20 @@
     "id": 31,
     "name": "Imports/Exports",
     "url": "rss/imports_exports.rss"
+  },
+  {
+  "id": 33,
+  "name": "Health & Safety",
+  "url": "rss/health_n_safety.rss"
+  },
+  {
+    "id": 34,
+    "name": "Clerical/Janitorial",
+    "url": "rss/clerical_janitorial.rss"
+  },
+  {
+    "id": 35,
+    "name": "Retail",
+    "url": "rss/retail.rss"
   }
 ]
