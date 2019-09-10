@@ -2,6 +2,7 @@
  * 20180823 PS SDB-921-4669 Remove EasyTracker activity start from onStart() and onStop() methods
  * 20190516 PS SDB-954-4701 Add the LocationManager class and get the GPS location by LocationAddress and a pop up.
  * 20190517 PS SDB-954-4701 Refactored the code to open the tooltip text and check user package permission.
+ * 20190910 NJ SDB-966-4712 added an implentation comment to a commented block of code
  */
 
 package lk.topjobs.androidapp.activities;
@@ -285,10 +286,11 @@ public class JobListActivity extends SherlockActivity implements XMLCallback,
 				application.originalJobList = result.jobPostList;
 				application.filteredJobList = result.jobPostList;
 				try {
-//					Collections.sort(application.originalJobList,
+//					Collections.sort(application.originalJobList, // this block of code is used to sort the collection of data sent by the back end.but now a sorted collection is passed from backend
 //							new JobListIdComparator());
 //					Collections.sort(application.originalJobList,
-//							new JobListDateComparator());
+//							new JobListDateComparator()); 
+
 					jobListAdapter = new JobListAdapter(this, application);
 					listView.setAdapter(jobListAdapter);
 					textViewTotalPosts.setText(application.originalJobList
